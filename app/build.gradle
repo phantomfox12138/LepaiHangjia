@@ -42,4 +42,16 @@ dependencies {
     implementation 'cn.jiguang.sdk:jpush:3.0.1'
     implementation 'cn.jiguang.sdk:jcore:1.1.0'
     implementation 'com.yanzhenjie:permission:1.1.2'
+    implementation 'com.github.zyyoona7:EasyPopup:1.0.2'
+    implementation files('libs/libapshare.jar')
+    implementation files('libs/open_sdk_r5788_lite.jar')
+    implementation files('libs/SocialSDK_alipay.jar')
+    implementation files('libs/SocialSDK_QQ_Full.jar')
+    implementation files('libs/SocialSDK_Sina_Full.jar')
+    implementation files('libs/SocialSDK_WeiXin_Full.jar')
+    implementation files('libs/wechat-sdk-android-with-mta-1.1.6.jar')
+    implementation files('libs/weiboSDKCore.jar')
+    implementation files('libs/umeng_social_api.jar')
+    implementation files('libs/umeng_social_net.jar')
+    implementation files('libs/umeng_social_tool.jar')
 }

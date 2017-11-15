@@ -6,10 +6,16 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.webkit.JavascriptInterface;
+import android.webkit.WebView;
 
 import com.junjingit.lphj.alipay.Alipay;
+import com.umeng.socialize.UMAuthListener;
+import com.umeng.socialize.UMShareAPI;
+import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.vondear.rxtools.RxSPTool;
 import com.yanzhenjie.nohttp.NoHttp;
 import com.yanzhenjie.nohttp.RequestMethod;
@@ -17,6 +23,9 @@ import com.yanzhenjie.nohttp.rest.OnResponseListener;
 import com.yanzhenjie.nohttp.rest.Request;
 import com.yanzhenjie.nohttp.rest.RequestQueue;
 import com.yanzhenjie.nohttp.rest.Response;
+import com.zyyoona7.lib.EasyPopup;
+import com.zyyoona7.lib.HorizontalGravity;
+import com.zyyoona7.lib.VerticalGravity;
 
 import java.util.Set;
 
@@ -36,6 +45,29 @@ public class JSInterface
     private Context mContext;
     
     private boolean mPushAliasFlag = false;
+    
+    private Handler mHandler;
+    
+    private EasyPopup mPoupup;
+    
+    private WebView mWebView;
+    
+    private UMAuthListener umAuthListener;
+    
+    public void setUmAuthListener(UMAuthListener umAuthListener)
+    {
+        this.umAuthListener = umAuthListener;
+    }
+    
+    public void setmPoupup(EasyPopup mPoupup)
+    {
+        this.mPoupup = mPoupup;
+    }
+    
+    public void setmWebView(WebView mWebView)
+    {
+        this.mWebView = mWebView;
+    }
     
     private TagAliasCallback mAliasCallback = new TagAliasCallback()
     {
@@ -58,6 +90,11 @@ public class JSInterface
         this.mContext = context;
     }
     
+    public void setmHandler(Handler mHandler)
+    {
+        this.mHandler = mHandler;
+    }
+    
     @JavascriptInterface
     public void saveToken(String key, String id)
     {
@@ -75,12 +112,16 @@ public class JSInterface
                     mAliasCallback);
         }
     }
+    
     @JavascriptInterface
-    public void clearAlias(){
-        JPushInterface.setAliasAndTags(mContext.getApplicationContext(),"",null,
+    public void clearAlias()
+    {
+        JPushInterface.setAliasAndTags(mContext.getApplicationContext(),
+                "",
+                null,
                 mAliasCallback);
     }
-
+    
     //    @JavascriptInterface
     //    public void openNewWindow(String url)
     //    {
@@ -173,14 +214,46 @@ public class JSInterface
             }
         });
     }
-
-
-
-//    @JavascriptInterface
-//    public void wechatLogin()
-//    {
-//        UMShareAPI.get(this).getPlatformInfo(this,
-//                SHARE_MEDIA.WEIXIN,
-//                this);
-//    }
+    
+    @JavascriptInterface
+    public void shareTo(String type, String title, String desc, String url)
+    {
+        mPoupup.showAtAnchorView(mWebView,
+                VerticalGravity.ALIGN_BOTTOM,
+                HorizontalGravity.CENTER);
+        
+        Message msg = new Message();
+        
+        switch (type)
+        {
+            case "image":
+                
+                msg.obj = desc + "," + url;
+                msg.what = 0x123;
+                
+                break;
+            
+            case "text":
+                
+                msg.obj = desc;
+                msg.what = 0x456;
+                break;
+            
+            case "link":
+                
+                msg.obj = title + "," + desc + "," + url;
+                msg.what = 0x789;
+                break;
+        }
+        
+        mHandler.sendMessage(msg);
+    }
+    
+    @JavascriptInterface
+    public void wechatLogin()
+    {
+        UMShareAPI.get(mContext).getPlatformInfo((Activity) mContext,
+                SHARE_MEDIA.WEIXIN,
+                umAuthListener);
+    }
 }
