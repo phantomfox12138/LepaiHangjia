@@ -75,7 +75,12 @@ public class JSInterface
                     mAliasCallback);
         }
     }
-    
+    @JavascriptInterface
+    public void clearAlias(){
+        JPushInterface.setAliasAndTags(mContext.getApplicationContext(),"",null,
+                mAliasCallback);
+    }
+
     //    @JavascriptInterface
     //    public void openNewWindow(String url)
     //    {
@@ -168,6 +173,8 @@ public class JSInterface
             }
         });
     }
+
+
 
 //    @JavascriptInterface
 //    public void wechatLogin()

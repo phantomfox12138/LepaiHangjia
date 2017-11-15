@@ -13,11 +13,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-        <!--<meta-data-->
-            <!--android:name="UMENG_APPKEY"-->
-            <!--android:value="599bf6f8aed1791a2b001989" />-->
-
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="5a026e1da40fa32b200000ec">
+        </meta-data>
         <activity
             android:name=".WelcomeActivity"
             android:theme="@style/FullScreen">

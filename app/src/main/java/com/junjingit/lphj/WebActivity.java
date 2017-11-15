@@ -1,30 +1,18 @@
 package com.junjingit.lphj;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.util.Log;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-
-import com.yanzhenjie.nohttp.rest.OnResponseListener;
-import com.yanzhenjie.nohttp.rest.Response;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.List;
-import java.util.Map;
-
 public class WebActivity extends AppCompatActivity //implements UMAuthListener
 {
     public static final String PARAM_URL = "param_url";
-    
+
     private WebView mWebView;
-    
+
     //    private UMShareListener mShareListener = new UMShareListener()
     //    {
     //        @Override
@@ -55,22 +43,22 @@ public class WebActivity extends AppCompatActivity //implements UMAuthListener
     //
     //        }
     //    };
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_web);
-        
+
         String url = getIntent().getStringExtra(PARAM_URL);
-        
+
         initView(url);
     }
-    
+
     private void initView(String url)
     {
         mWebView = findViewById(R.id.webview);
-        
+
         mWebView.setWebViewClient(new WebViewClient()
         {
             @Override
@@ -80,7 +68,7 @@ public class WebActivity extends AppCompatActivity //implements UMAuthListener
                 return true;
             }
         });
-        
+
         mWebView.setWebChromeClient(new WebChromeClient()
         {
             @Override
@@ -99,13 +87,13 @@ public class WebActivity extends AppCompatActivity //implements UMAuthListener
                 super.onProgressChanged(view, newProgress);
             }
         });
-        
+
         WebSettings webSettings = mWebView.getSettings();
-        
+
         webSettings.setJavaScriptEnabled(true);
         mWebView.addJavascriptInterface(new JSInterface(this), "JSInterface");
         webSettings.setJavaScriptCanOpenWindowsAutomatically(true);
-        
+
         webSettings.setAllowContentAccess(true);
         webSettings.setDatabaseEnabled(true);
         webSettings.setDomStorageEnabled(true);
@@ -114,9 +102,9 @@ public class WebActivity extends AppCompatActivity //implements UMAuthListener
         webSettings.setSaveFormData(false);
         webSettings.setUseWideViewPort(true);
         webSettings.setLoadWithOverviewMode(true);
-        
+
         String from = getIntent().getStringExtra(MyReceiver.FROM_RECEIVER);
-        
+
         if (TextUtils.isEmpty(from))
         {
             mWebView.loadUrl(TextUtils.isEmpty(url) ? "http://lepai.chuyuxuan.com/wap?device=android"
@@ -126,9 +114,9 @@ public class WebActivity extends AppCompatActivity //implements UMAuthListener
         {
             mWebView.loadUrl(url);
         }
-        
+
     }
-    
+
     //    private List<ShareModel> initShareList()
     //    {
     //        ShareModel wechat = new ShareModel();
@@ -309,4 +297,7 @@ public class WebActivity extends AppCompatActivity //implements UMAuthListener
     //        super.onSaveInstanceState(outState);
     //        UMShareAPI.get(this).onSaveInstanceState(outState);
     //    }
+
+
+
 }
